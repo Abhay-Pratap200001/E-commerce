@@ -1,6 +1,6 @@
 // Importing required packages
 import express from "express";     
-import path from "path";                        // Path helps to work with file & folder paths (built-in Node module)
+import path from "path";                        // Path helps to work with file & folder paths 
 import dotenv from "dotenv";        
 import cookieParser from "cookie-parser";       // Middleware to read cookies from the client request
 import { connectDB } from "./config/db.js";     //importing db
@@ -21,7 +21,7 @@ const app = express();
 // Middleware = Functions that run before the request reaches your routes
 
 
-app.use(express.json()); // Parses incoming JSON data from client requests (e.g., POST requests with JSON body)
+app.use(express.json()); // Parses incoming JSON data from client requests, POST requests with JSON body
 
 
 // Parses form data (from HTML forms), so server can read it properly

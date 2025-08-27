@@ -1,0 +1,40 @@
+// Step 3
+// Import the main apiSlice we made in apiSlice.js
+// This is like the "base API setup"
+import { apiSlice } from "./apiSlice.js";
+
+// Import USERS_URL constant
+// This holds the base path for user-related routes ("/api/users")
+import { USERS_URL } from "../constants.js";
+
+
+// Add (inject) new endpoints into apiSlice
+// Think of it as "adding extra routes" for API calls
+export const userApiSlice = apiSlice.injectEndpoints({
+    endpoints: (builder) => ({
+        // Create a "login" API call
+        login: builder.mutation({
+            // mutation = for actions that CHANGE data (POST, PUT, DELETE)
+            query: (data) => ({
+                // Final URL: /api/users/auth
+                // USERS_URL = "/api/users" → add "/auth"
+                url: `${USERS_URL}/auth`,
+
+                // HTTP method → POST (because we are sending login info)
+                method: "POST",
+
+                // Body of the request = the login form data
+                // Example: { email: "test@test.com", password: "12345" }
+                body: data,
+            })
+        })
+    })
+})
+
+
+// RTK Query automatically creates a custom React hook for us
+// useLoginMutation → used inside React components
+// Example:
+// const [login, { isLoading }] = useLoginMutation();
+// login({ email, password }) will call the backend
+export const { useLoginMutation } = userApiSlice;

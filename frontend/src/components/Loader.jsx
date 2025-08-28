@@ -2,7 +2,7 @@ import React from "react";
 
 const Loader = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div className="flex items-center justify-center h-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <div className="flex items-center space-x-3 px-6 py-3 bg-white rounded-2xl shadow-lg">
         {/* Spinner */}
         <svg

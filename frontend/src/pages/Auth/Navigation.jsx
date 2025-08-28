@@ -10,11 +10,18 @@ import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Navigation.css";
+
+//for trigger action and select the staate
 import { useSelector, useDispatch } from "react-redux";
+
+//to add in store data of user that user is login or logout
 import { useLogoutMutation } from "../../redux/api/usersApiSlice";
+
+
 import { logout } from "../../redux/features/auth/authSlice";
 
 const Navigation = () => {
+    //accessing userInfo info to check or insert data when user login or logout in redux store
   const { userInfo } = useSelector((state) => state.auth);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -29,15 +36,23 @@ const Navigation = () => {
 
   const [logoutApiCall] = useLogoutMutation();
 
-  const logoutHandler = async () => {
-    try {
-      await logoutApiCall().unwrap();
-      dispatch(logout());
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const logoutHandler = async () => {
+  try {
+    // 1. Call the API to log out (sends request to backend)
+    // unwrap() ensures that if the API fails, it will throw an error
+    await logoutApiCall().unwrap();  
+
+    // 2. Clear the user data from Redux store
+    dispatch(logout());  
+
+    // 3. Redirect the user to the login page
+    navigate("/login");  
+  } catch (error) {
+    // 4. If something goes wrong, log the error
+    console.error(error);
+  }
+};
+
 
   return (
     <div style={{ xIndex: 999 }} className={`${ showSidebar ? "hidden" : "flex" } xl:flex lg:flex md:hidden flex-col justify-baseline p-4 text-white bg-slate-700 w-[4%] hover:w-[17%] h-[100vh] fixed`} id="navigation-container">
@@ -180,7 +195,7 @@ const Navigation = () => {
 
           </ul>
         )}
-        
+
       </div>
     </div>
   );

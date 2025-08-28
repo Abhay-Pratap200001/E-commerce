@@ -5,16 +5,16 @@ import { createSlice } from "@reduxjs/toolkit";
 // Define the initial state of auth
 // Check if userInformation exists in localStorage (means user already logged in before)
 // If yes → parse and use it, else keep it null
-const intialState = {
+const initialState = {
     userInfo: localStorage.getItem("userInfo")
         ? JSON.parse(localStorage.getItem("userInfo")) 
-        : null
+        : null,
 }
 
 // Create authSlice for managing authentication (login/logout)
 const authSlice = createSlice({
     name: "auth",       // Name of the slice (will be used internally by Redux)
-    intialState,        // Initial state defined above
+    initialState,        // Initial state defined above
 
     // Reducers = functions that can update/change the state
     reducers:{
@@ -33,6 +33,8 @@ const authSlice = createSlice({
             localStorage.setItem("expirationTime", expirationTime)
         },
 
+        
+
         // ❌ Clear user data when logout
         logout: (state) => {
             // Remove user from Redux store
@@ -41,7 +43,7 @@ const authSlice = createSlice({
             // Clear everything from localStorage (logout completely)
             localStorage.clear();
         },
-    }
+    },
 })
 
 // Export the actions (functions) so we can use them in components

@@ -15,7 +15,7 @@ const store = configureStore({
     reducer: {
         // Add API slice reducer (to saves API data in Redux)
         [apiSlice.reducerPath]: apiSlice.reducer,
-        auth: authReducer,
+         auth: authReducer,
     },
 
     // Add API slice middleware (handles caching, refresh, retries, etc.)

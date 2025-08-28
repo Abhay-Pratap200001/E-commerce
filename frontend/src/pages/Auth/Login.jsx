@@ -8,6 +8,7 @@ import { useLoginMutation } from "../../redux/api/usersApiSlice";
 
 //to add in store data of user that user is login or logout
 import { setCredientials } from "../../redux/features/auth/authSlice";
+
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 
@@ -33,6 +34,8 @@ const Login = () => {
     }
   }, [navigate, redirect, userInfo]);
 
+
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -43,6 +46,8 @@ const Login = () => {
       toast.error(error?.data?.message || error.message);
     }
   };
+
+
 
   return (
 <div className="fixed inset-0 flex items-center justify-center bg-gray-100">
@@ -59,8 +64,7 @@ const Login = () => {
           id="email"
           className="mt-1 p-2 rounded w-full border-2 bg-slate-100"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          onChange={(e) => setEmail(e.target.value)}/>
       </div>
 
       <div>

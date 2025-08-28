@@ -26,6 +26,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 // Body of the request = the login form data
                 // Example: { email: "test@test.com", password: "12345" }
                 body: data,
+            }),
+        }),
+
+        logout: builder.mutation({
+            query: () => ({
+                url: `${USERS_URL}/logout`,
+                method: 'POST',
             })
         })
     })
@@ -37,4 +44,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
 // Example:
 // const [login, { isLoading }] = useLoginMutation();
 // login({ email, password }) will call the backend
-export const { useLoginMutation } = userApiSlice;
+export const { useLoginMutation, useLogoutMutation } = userApiSlice;

@@ -33,8 +33,6 @@ const authSlice = createSlice({
             localStorage.setItem("expirationTime", expirationTime)
         },
 
-        
-
         // ❌ Clear user data when logout
         logout: (state) => {
             // Remove user from Redux store

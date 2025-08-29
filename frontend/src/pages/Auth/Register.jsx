@@ -3,11 +3,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
-//set data to slice so store can access that
+// redux slice
 import { setCredientials } from "../../redux/features/auth/authSlice";
-
-//for calling api to sending data to backermd i
+// api slice
 import { useRegisterMutation } from "../../redux/api/usersApiSlice";
 
 const Register = () => {
@@ -22,43 +22,42 @@ const Register = () => {
   const [register, { isLoading }] = useRegisterMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
-
-// Get the query string part from the current URL (everything after ?)
   const { search } = useLocation();
-
-  // Convert the query string into an object we can read values from
   const sp = new URLSearchParams(search);
-
-  // Get the "redirect" value from URL, or use "/" (home) if it doesn’t exist
   const redirect = sp.get("redirect") || "/";
 
   useEffect(() => {
-    // If user is logged in, send them to the redirect page (or home)
     if (userInfo) {
       navigate(redirect);
     }
-  },[navigate, redirect, userInfo]);
+  }, [navigate, redirect, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
-      toast.error("passwords do not match");
+      toast.error("Passwords do not match");
     } else {
       try {
         const res = await register({ username, email, password }).unwrap();
         dispatch(setCredientials({ ...res }));
         toast.success("Registered successfully! 🎉");
-
         navigate(redirect);
-      } catch (error) {}
+      } catch (error) {
+        toast.error(error?.data?.message || "Registration failed");
+      }
     }
   };
 
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-slate-100">
-      <section className="bg-white p-8 rounded-2xl shadow-lg w-[28rem] border border-slate-200">
-        {/* Title */}
+    <div className="flex justify-center items-center min-h-screen bg-slate-100">
+      <motion.section
+        initial={{ opacity: 0, scale: 0.9, y: -30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="bg-white p-8 rounded-2xl shadow-lg w-[28rem] border border-slate-200">
+        
+
         <h1 className="text-3xl font-bold text-slate-800 text-center mb-6">
           Create Account
         </h1>
@@ -66,8 +65,9 @@ const Register = () => {
           Please fill in your details to register
         </p>
 
-        {/* Form */}
+
         <form onSubmit={submitHandler} className="space-y-5">
+          {/* Name */}
           <div>
             <label
               htmlFor="name"
@@ -80,7 +80,8 @@ const Register = () => {
               className="mt-1 p-3 rounded-lg w-full border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
               placeholder="Enter your name"
               value={username}
-              onChange={(e) => setUserName(e.target.value)}/>
+              onChange={(e) => setUserName(e.target.value)}
+            />
           </div>
 
 
@@ -97,7 +98,8 @@ const Register = () => {
               className="mt-1 p-3 rounded-lg w-full border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}/>
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
 
@@ -114,7 +116,8 @@ const Register = () => {
               className="mt-1 p-3 rounded-lg w-full border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}/>
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
 
@@ -137,18 +140,20 @@ const Register = () => {
 
 
 
-          {/* Button */}
-          <button
+          {/* Button with animation */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             disabled={isLoading}
             type="submit"
             className="px-4 py-3 w-full rounded-lg font-medium text-white bg-slate-600 hover:bg-slate-700 transition-all duration-200 disabled:opacity-60">
             {isLoading ? "Registering..." : "Register"}
-          </button>
+          </motion.button>
+
 
           {isLoading && <Loader />}
         </form>
 
-        {/* Footer */}
         <p className="mt-6 text-sm text-center text-slate-600">
           Already have an account?{" "}
           <Link
@@ -157,7 +162,8 @@ const Register = () => {
             Login
           </Link>
         </p>
-      </section>
+        
+      </motion.section>
     </div>
   );
 };

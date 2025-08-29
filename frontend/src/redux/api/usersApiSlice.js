@@ -12,6 +12,7 @@ import { USERS_URL } from "../constants.js";
 // Think of it as "adding extra routes" for API calls
 export const userApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+
         // Create a "login" API call
         login: builder.mutation({
             // mutation = for actions that CHANGE data (POST, PUT, DELETE)
@@ -29,6 +30,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
         }),
 
+        
         logout: builder.mutation({
             query: () => ({
                 url: `${USERS_URL}/logout`,
@@ -42,6 +44,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             })
+        }),
+
+
+         profile: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/profile`,
+                method: 'PUT',
+                body: data,
+            })
         })
     })
 })
@@ -52,4 +63,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
 // Example:
 // const [login, { isLoading }] = useLoginMutation();
 // login({ email, password }) will call the backend
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } = userApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useProfileMutation } = userApiSlice;

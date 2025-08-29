@@ -5,55 +5,71 @@ import { useLoginMutation } from "../../redux/api/usersApiSlice";
 import { setCredientials } from "../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
+import { motion } from "framer-motion";
+
 
 const Login = () => {
+  // ---------- Local state ----------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // ---------- Redux & Router hooks ----------
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [login, { isLoading }] = useLoginMutation();
-  const { userInfo } = useSelector((state) => state.auth);
-
   const { search } = useLocation();
+
+  // Redirect handling
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
+  // ---------- API hook ----------
+  const [login, { isLoading }] = useLoginMutation();
+
+  // ---------- Redux auth state ----------
+  const { userInfo } = useSelector((state) => state.auth);
+
+  // Redirect if already logged in
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
 
+  // ---------- Submit handler ----------
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      console.log(res);
       dispatch(setCredientials({ ...res }));
-      toast.success("Login sucessfully")
+      toast.success("Login successful ✅");
+      navigate(redirect);
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }
   };
 
+  // ---------- UI ----------
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-slate-100">
-      <section className="bg-white p-8 rounded-2xl shadow-lg w-[28rem]">
+    <div className="mt-20 p-6 md:p-10">
+      <motion.section
+        initial={{ opacity: 0, scale: 0.9, y: -30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}>
+
+
+      {/* Container respects Sidebar layout */}
+      <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-md p-8">
         {/* Heading */}
-        <h1 className="text-3xl font-bold mb-6 text-center text-slate-800">
+        <h1 className="text-2xl font-bold mb-2 text-center text-slate-800">
           Welcome Back 👋
         </h1>
-        <p className="text-sm text-slate-500 mb-8 text-center">
+        <p className="text-sm text-slate-500 mb-6 text-center">
           Please sign in to continue
         </p>
 
-        {/* Form */}
         <form onSubmit={submitHandler} className="space-y-5">
           {/* Email */}
           <div>
-
             <label
               htmlFor="email"
               className="block text-sm font-medium text-slate-700">
@@ -66,15 +82,18 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              required/>
+              required
+            />
           </div>
+
 
 
           {/* Password */}
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-slate-700">
+              className="block text-sm font-medium text-slate-700"
+            >
               Password
             </label>
             <input
@@ -87,29 +106,30 @@ const Login = () => {
               required/>
           </div>
 
-
-          {/* Submit Button */}
+          {/* Button */}
           <button
             disabled={isLoading}
             type="submit"
             className="w-full py-3 rounded-lg bg-slate-700 text-white font-medium hover:bg-slate-800 transition disabled:opacity-60">
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
+
+
           {isLoading && <Loader />}
         </form>
 
-        {/* Footer */}
+
         <p className="mt-6 text-sm text-center text-slate-600">
           New customer?{" "}
-
           <Link
             to={redirect ? `/register?redirect=${redirect}` : "/register"}
             className="text-slate-800 font-semibold hover:underline">
             Register
           </Link>
-          
         </p>
-      </section>
+        
+      </div>
+      </motion.section>
     </div>
   );
 };

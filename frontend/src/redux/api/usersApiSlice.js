@@ -11,6 +11,7 @@ import { USERS_URL } from "../constants.js";
 // Think of it as "adding extra routes" for API calls
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+
     // Create a "login" API call
     login: builder.mutation({
       // mutation = for actions that CHANGE data (POST, PUT, DELETE)
@@ -28,12 +29,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+
+
     logout: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
     }),
+
+
 
     register: builder.mutation({
       query: (data) => ({
@@ -43,6 +48,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+
+
+
     profile: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/profile`,
@@ -50,6 +58,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+
+
 
     //FOR GETTING USER IN ADMIN DASHBOARD
     getUsers: builder.query({
@@ -60,6 +71,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
 
+
+
+
     //FOR DELETING THE USER FROM ADMIN SIDE
     deleteUser: builder.mutation({
       query: (userId) => ({
@@ -68,6 +82,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+
+
+
     getUserDetails: builder.query({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
@@ -75,6 +92,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
 
+
+
+    
     updateUser: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/${data.userId}`,

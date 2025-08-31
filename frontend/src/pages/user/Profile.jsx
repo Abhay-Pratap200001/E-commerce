@@ -27,15 +27,15 @@ const Profile = () => {
 
   
 const submitHandler = async (e) => {
-  e.preventDefault(); // form submit hone pe page reload na ho
+  e.preventDefault();
   if (password !== confirmPassword) {
     toast.error("Passwords do not match");
   } else {
     try {
-      // Backend ko correct payload bhejna
+      //send correct Backend payload bhejna
       const res = await updateProfile({
         _id: userInfo._id,        // optional (depends on backend)
-        username,                 // ye important hai
+        username,                
         email,
         password,
       }).unwrap();

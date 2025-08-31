@@ -32,6 +32,7 @@ const UserList = () => {
   const [editableUserEmail, setEditableUserEmail] = useState("");
 
 
+
   // Re-fetch users whenever component loads
   useEffect(() => {
     refetch();
@@ -51,12 +52,14 @@ const UserList = () => {
   };
 
 
+
   // Enable edit mode for selected user
   const toggleEdit = (id, username, email) => {
     setEditableUserId(id);      // store user ID in state
     setEditableUserName(username);
     setEditableUserEmail(email);
   };
+
 
 
   // Update user handler
@@ -75,6 +78,7 @@ const UserList = () => {
   };
 
 
+
   return (
     <div className="p-">
       <h1 className="text-2xl font-semibold mb-4">Users</h1>
@@ -82,6 +86,7 @@ const UserList = () => {
       {/* Loader while data is fetching */}
       {isLoading ? ( <Loader /> ) : error ? (<Message variant="danger">{error?.data?.message || error.error}</Message> ) : (
         <div className="flex flex-col md:flex-row">
+
 
           {/* User Table */}
           <table className="w-full md:w-4/5 mx-auto">
@@ -102,17 +107,22 @@ const UserList = () => {
                   {/* User ID */}
                   <td className="px-4 py-2">{user._id}</td> 
 
+
                   {/* Username Column */}
                   <td className="px-4 py-2">
                     {editableUserId === user._id ? (
+ 
 
                       // If user is being edited → show input field
                       <div className="flex items-center">
+
+                     {/* input visible after user click on edit icon */}
                         <input 
                           type="text" 
                           value={editableUserName} 
                           onChange={e => setEditableUserName(e.target.value)} 
                           className="w-full p-2 border rounded-lg"/>
+
 
                         <button 
                           onClick={() => updateHandler(user._id)} 
@@ -120,6 +130,8 @@ const UserList = () => {
                           <FaCheck/>
                         </button>
                       </div>) : (
+
+                        
 
                       // Normal view (just text + edit button)
                       <div className="flex items-center">
@@ -136,6 +148,8 @@ const UserList = () => {
                   <td className="px-4 py-2">
                     {editableUserId === user._id ? (
                       <div className="flex items-center">
+
+                        {/* input visible after user click on edit icon */}
                         <input 
                           type="text"  
                           value={editableUserEmail} 
@@ -149,6 +163,8 @@ const UserList = () => {
                         </button>
                       </div>) : (
 
+
+
                       <div className="flex items-center">
                         <p>{user.email}</p>
                         <button onClick={() => toggleEdit(user._id, user.username, user.email)}>
@@ -158,11 +174,15 @@ const UserList = () => {
                     )}
                   </td>
 
+
+
                   {/* Admin Column */}
                   <td className="px-4 py-2">
                     {user.isAdmin ? (
                       <FaCheck style={{ color: "green" }}/>) : (<FaTimes style={{ color: 'red' }}/>)}
                   </td> 
+
+
 
                   {/* Delete Button */}
                   <td className="px-4 py-2">

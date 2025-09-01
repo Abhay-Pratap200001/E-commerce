@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Model = ({isOpen, onClose, children}) => {
+const Model = ({isOpen, onClose, children}) => { // accepting props from categoriesList.jsx file for pop-up update and delete card
   return (
     <>
     {isOpen && (

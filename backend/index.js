@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";       // Middleware to read cookies from the client request
 import { connectDB } from "./config/db.js";     //importing db
 import userRoutes from "./routes/userRoutes.js" 
+import categoryRoutes from './routes/categoryRoutes.js'
+
+
 dotenv.config();
 const port = process.env.PORT || 5000;
 
@@ -31,6 +34,7 @@ app.use(cookieParser()); //Extracts cookies from the request headers so you can 
 
 
 app.use("/api/users", userRoutes);  //user auth api
+app.use("/api/category", categoryRoutes)
 
 
 /* ---------------- START SERVER ---------------- */

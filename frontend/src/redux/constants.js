@@ -5,3 +5,7 @@ export const BASE_URL = "";
 // Base URL for user routes
 // Example: /api/users/login or /api/users/register
 export const USERS_URL = "/api/users";
+
+
+// catergory BASE URL
+export const CATEGORY_URL = '/api/category';
